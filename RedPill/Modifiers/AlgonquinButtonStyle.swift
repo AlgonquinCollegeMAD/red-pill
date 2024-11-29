@@ -16,9 +16,10 @@ struct AlgonquinButtonStyle: ViewModifier {
       .bold()
       .frame(maxWidth: .infinity)
       .padding()
-      .background(disabled ? Color.gray : backgroundColor)
+      .background(disabled ? Color.green : backgroundColor)
       .foregroundColor(.white)
-      .cornerRadius(8)
+      .cornerRadius(15)
+      .shadow(radius:10)
       .opacity(disabled ? 0.6 : 1.0)
       .allowsHitTesting(!disabled)
   }
