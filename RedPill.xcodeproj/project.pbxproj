@@ -27,7 +27,7 @@
 		10528F402CF948B100EE2479 /* PostsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10528F3F2CF948B100EE2479 /* PostsListView.swift */; };
 		10528F422CF94BE800EE2479 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10528F412CF94BE800EE2479 /* CreatePostView.swift */; };
 		10528F472CF94E5F00EE2479 /* AlgonquinButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10528F462CF94E5F00EE2479 /* AlgonquinButtonStyle.swift */; };
-		10AC53DC2CF9699B00CE93F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10AC53DB2CF9699B00CE93F8 /* GoogleService-Info.plist */; };
+		D1E1519E2CFA3045005216AF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D1E1519D2CFA3045005216AF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,7 @@
 		10528F3F2CF948B100EE2479 /* PostsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsListView.swift; sourceTree = "<group>"; };
 		10528F412CF94BE800EE2479 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		10528F462CF94E5F00EE2479 /* AlgonquinButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgonquinButtonStyle.swift; sourceTree = "<group>"; };
-		10AC53DB2CF9699B00CE93F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D1E1519D2CFA3045005216AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				10528F232CF946E000EE2479 /* Assets.xcassets */,
-				10AC53DB2CF9699B00CE93F8 /* GoogleService-Info.plist */,
+				D1E1519D2CFA3045005216AF /* GoogleService-Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 			files = (
 				10528F3C2CF946E000EE2479 /* Preview Assets.xcassets in Resources */,
 				10528F3D2CF946E000EE2479 /* Assets.xcassets in Resources */,
-				10AC53DC2CF9699B00CE93F8 /* GoogleService-Info.plist in Resources */,
+				D1E1519E2CFA3045005216AF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
