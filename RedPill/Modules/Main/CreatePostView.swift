@@ -20,34 +20,57 @@ struct CreatePostView: View {
   var userID: String
   
   var body: some View {
-    VStack {
-      TextEditor(text: $postContent)
-        .padding()
-        .overlay(
-          RoundedRectangle(cornerRadius: 8)
-            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-        )
-        .frame(height: 200)
-        .cornerRadius(8)
-      
-      Button(action: submitPost) {
-        if isSubmitting {
-          ProgressView()
-        } else {
-          Text("Post")
-            .bold()
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
+    VStack(alignment: .leading, spacing: 16) {
+      HStack {
+        Button(action: {
+          dismiss()
+        }) {
+          Image(systemName: "xmark")
+            .foregroundColor(.primary)
+            .padding(8)
+            .background(Color.gray.opacity(0.2))
+            .clipShape(Circle())
         }
+        .accessibilityLabel("Close")
+        
+        Spacer()
+        
+        Text("Create Post")
+          .font(.headline)
+          .bold()
+        
+        Spacer(minLength: 36)
       }
-      .disabled(isSubmitting || postContent.isEmpty)
-      .padding(.horizontal)
-      .padding(.bottom)
+      
+      VStack(alignment: .leading, spacing: 8) {
+        TextEditor(text: $postContent)
+          .padding(8)
+          .overlay(
+            RoundedRectangle(cornerRadius: 8)
+              .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+          )
+          .frame(height: 150)
+          .cornerRadius(8)
+        
+        Button(action: submitPost) {
+          if isSubmitting {
+            ProgressView()
+          } else {
+            Text("Post")
+              .bold()
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.blue)
+              .foregroundColor(.white)
+              .cornerRadius(8)
+          }
+        }
+        .disabled(isSubmitting || postContent.isEmpty)
+      }
     }
-    .padding()
+    .padding(.horizontal, 16)
+    .padding(.top, 16)
+    .frame(maxHeight: 350, alignment: .top) 
     .alert("Error", isPresented: $showError) {
       Button("OK", role: .cancel) {}
     } message: {
