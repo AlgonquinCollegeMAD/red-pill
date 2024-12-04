@@ -14,14 +14,34 @@ struct PostsListView: View {
   var body: some View {
     List(databaseManager.posts) { post in
       VStack(alignment: .leading) {
-          AsyncImage(url: post.imageURL) { image in
-              image
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-          } placeholder: {
-              ProgressView()
-          }
-          .frame(width: 200, height: 200)
+        if let imageURL = post.imageURL {
+            AsyncImage(url: imageURL) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                case .failure(_):
+                    Image("ImageNotFound")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                @unknown default:
+                    Image("ImageNotFound")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                }
+            }
+        } else {
+            Image("NoImage")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, maxHeight: 200)
+        }
         Text(post.content)
           .font(.headline)
         Text("by \(post.authorID)")
