@@ -9,9 +9,6 @@
 import SwiftUI
 import FirebaseFirestore
 
-import SwiftUI
-import FirebaseFirestore
-
 struct CreatePostView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var postContent: String = ""
