@@ -13,4 +13,5 @@ struct Post: Codable, Identifiable {
   var content: String
   var authorID: String
   var timestamp: Date
+  var imageURL: URL?
 }

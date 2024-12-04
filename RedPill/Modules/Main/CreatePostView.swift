@@ -16,6 +16,10 @@ struct CreatePostView: View {
   @State private var isSubmitting = false
   @State private var showError = false
   @State private var errorMessage = ""
+  @State private var selectedImage: UIImage?
+    @State private var uploadedimageURLs: [URL] = []
+    @State private var isUploading = false
+    @State private var imageURL: URL? = nil
   
   var userID: String
   
@@ -29,6 +33,20 @@ struct CreatePostView: View {
         )
         .frame(height: 200)
         .cornerRadius(8)
+      AppPickerView(selectedImage: $selectedImage)
+        if let image = selectedImage {
+          Image(uiImage: image)
+            .resizable()
+            .scaledToFit()
+            .frame(height: 200)
+          
+          Button("Upload Photo") {
+            Task {
+              await uploadPhoto(image)
+            }
+          }
+          .disabled(isUploading)
+        }
       
       Button(action: submitPost) {
         if isSubmitting {
@@ -62,7 +80,7 @@ struct CreatePostView: View {
     Task {
       do {
         isSubmitting = false
-        try await databaseManager.addPost(content: postContent, authorID: userID)
+          try await databaseManager.addPost(content: postContent, authorID: userID, imageURL: imageURL!)
         dismiss()
       } catch {
         errorMessage = error.localizedDescription
@@ -70,7 +88,23 @@ struct CreatePostView: View {
       }
     }
   }
+    
+    private func uploadPhoto(_ image: UIImage) async {
+      isUploading = true
+      do {
+        print("Checkpoint 0 start uploading")
+        let url = try await StorageManager.shared.uploadImage(image, forUserID: userID)
+        uploadedimageURLs.append(url)
+        print("Checkpoint the url is \(url)")
+          
+        imageURL = url
+      } catch {
+        print("Upload failed: \(error.localizedDescription)")
+      }
+      isUploading = false
+    }
 }
+
 
 #Preview {
   CreatePostView(userID: "123456")

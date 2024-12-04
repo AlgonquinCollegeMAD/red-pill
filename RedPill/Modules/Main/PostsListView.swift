@@ -14,6 +14,14 @@ struct PostsListView: View {
   var body: some View {
     List(databaseManager.posts) { post in
       VStack(alignment: .leading) {
+          AsyncImage(url: post.imageURL) { image in
+              image
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+          } placeholder: {
+              ProgressView()
+          }
+          .frame(width: 200, height: 200)
         Text(post.content)
           .font(.headline)
         Text("by \(post.authorID)")
