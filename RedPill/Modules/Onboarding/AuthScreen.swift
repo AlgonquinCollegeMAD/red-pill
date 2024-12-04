@@ -13,6 +13,7 @@ struct AuthScreen: View {
   @State private var showForgotPasswordSheet: Bool = false
   @FocusState private var focus
   @State private var authServiceError: AuthServiceError?
+  @State private var isLoading: Bool = false
   
   private var isFormValid: Bool {
     !email.isEmpty && !password.isEmpty
@@ -32,11 +33,21 @@ struct AuthScreen: View {
           .textFieldStyle(RoundedBorderTextFieldStyle())
         
         HStack {
-          Button("Login") { login() }
-            .algonquinButtonStyle(backgroundColor: .blue, disabled: !isFormValid)
-          
-          Button("Create") { createAccount() }
-            .algonquinButtonStyle(backgroundColor: .blue, disabled: !isFormValid)
+            LoadingButton(
+                title: "Login",
+                isLoading: isLoading,
+                action: { login() },
+                backgroundColor: .blue,
+                disabled: !isFormValid || isLoading
+            )
+            
+            LoadingButton(
+                title: "Create",
+                isLoading: isLoading,
+                action: { createAccount() },
+                backgroundColor: .blue,
+                disabled: !isFormValid || isLoading
+            )
             .padding()
         }
         
@@ -52,27 +63,56 @@ struct AuthScreen: View {
         ForgotPasswordScreen()
       }
     }
+    .disabled(isLoading)
+    .opacity(isLoading ? 0.6 : 1)
   }
   
   func login() {
     Task {
+        
       do {
+        isLoading = true
         try await authService.login(email: email, password: password)
       } catch {
         authServiceError = error as? AuthServiceError
       }
+      isLoading = false
     }
   }
   
   func createAccount() {
     Task {
+      isLoading = true
       try? await authService.createAccount(email: email, password: password)
+      isLoading = false
     }
   }
   
   func forgotPassword() {
     showForgotPasswordSheet.toggle()
   }
+}
+
+struct LoadingButton: View {
+    let title: String
+    let isLoading: Bool
+    let action: () -> Void
+    let backgroundColor: Color
+    let disabled: Bool
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(0.8)
+                }
+                Text(title)
+            }
+        }
+        .algonquinButtonStyle(backgroundColor: backgroundColor, disabled: disabled)
+    }
 }
 
 #Preview {
