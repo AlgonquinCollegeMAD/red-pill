@@ -80,7 +80,7 @@ struct CreatePostView: View {
         Task {
             do {
                 isSubmitting = false
-                try await databaseManager.addPost(content: postContent, authorID: userID, imageURL: imageURL!)
+                try await databaseManager.addPost(content: postContent, authorID: userID, imageURL: imageURL)
                 dismiss()
             } catch {
                 errorMessage = error.localizedDescription
