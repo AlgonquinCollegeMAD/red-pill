@@ -68,6 +68,7 @@ class AuthService: ObservableObject {
     }
   }
   
+    @MainActor
   func createAccount(email: String, password: String) async throws {
     do {
       let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
