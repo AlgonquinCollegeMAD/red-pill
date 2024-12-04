@@ -33,29 +33,21 @@ struct AuthScreen: View {
           .textFieldStyle(RoundedBorderTextFieldStyle())
         
         HStack {
-            Button(action: { login() }) {
-                HStack {
-                    if isLoading {
-                        ProgressView() // Added spinner
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .scaleEffect(0.8)
-                    }
-                    Text("Login")
-                }
-            }
-            .algonquinButtonStyle(backgroundColor: .blue, disabled: !isFormValid || isLoading)
-          
-            Button(action: { createAccount() }) {
-                HStack {
-                    if isLoading {
-                        ProgressView() // Added spinner
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .scaleEffect(0.8)
-                    }
-                    Text("Create")
-                }
-            }
-            .algonquinButtonStyle(backgroundColor: .blue, disabled: !isFormValid || isLoading)
+            LoadingButton(
+                title: "Login",
+                isLoading: isLoading,
+                action: { login() },
+                backgroundColor: .blue,
+                disabled: !isFormValid || isLoading
+            )
+            
+            LoadingButton(
+                title: "Create",
+                isLoading: isLoading,
+                action: { createAccount() },
+                backgroundColor: .blue,
+                disabled: !isFormValid || isLoading
+            )
             .padding()
         }
         
@@ -99,6 +91,28 @@ struct AuthScreen: View {
   func forgotPassword() {
     showForgotPasswordSheet.toggle()
   }
+}
+
+struct LoadingButton: View {
+    let title: String
+    let isLoading: Bool
+    let action: () -> Void
+    let backgroundColor: Color
+    let disabled: Bool
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .scaleEffect(0.8)
+                }
+                Text(title)
+            }
+        }
+        .algonquinButtonStyle(backgroundColor: backgroundColor, disabled: disabled)
+    }
 }
 
 #Preview {
