@@ -5,7 +5,6 @@
 //  Created by Vladimir Cezar on 2024.11.28.
 //
 
-
 import SwiftUI
 import FirebaseFirestore
 
@@ -20,19 +19,41 @@ struct CreatePostView: View {
   var userID: String
   
   var body: some View {
-    VStack {
-      TextEditor(text: $postContent)
-        .padding()
-        .overlay(
-          RoundedRectangle(cornerRadius: 8)
-            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-        )
-        .frame(height: 200)
-        .cornerRadius(8)
+    VStack(spacing: 16) {
+      Text("Create a New Post")
+        .font(.title2)
+        .fontWeight(.bold)
+        .padding(.top)
+      
+      VStack(alignment: .leading) {
+        Text("Post Content")
+          .font(.headline)
+          .foregroundColor(.gray)
+
+        ZStack(alignment: .topLeading) {
+          if postContent.isEmpty {
+            Text("Enter your post here...")
+              .foregroundColor(.gray)
+              .padding(.top, 8)
+              .padding(.leading, 5)
+          }
+          
+          TextEditor(text: $postContent)
+            .padding(8)
+            .background(Color(.systemGray6))
+            .cornerRadius(8)
+            .overlay(
+              RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+            )
+            .frame(height: 200)
+        }
+      }
       
       Button(action: submitPost) {
         if isSubmitting {
           ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: .white))
         } else {
           Text("Post")
             .bold()
@@ -43,9 +64,10 @@ struct CreatePostView: View {
             .cornerRadius(8)
         }
       }
-      .disabled(isSubmitting || postContent.isEmpty)
+      .disabled(isSubmitting)
       .padding(.horizontal)
       .padding(.bottom)
+      
     }
     .padding()
     .alert("Error", isPresented: $showError) {
@@ -56,18 +78,23 @@ struct CreatePostView: View {
   }
   
   private func submitPost() {
-    guard !postContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+    guard !postContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+      errorMessage = "Post content cannot be empty."
+      showError = true
+      return
+    }
+    
     isSubmitting = true
     
     Task {
       do {
-        isSubmitting = false
         try await databaseManager.addPost(content: postContent, authorID: userID)
         dismiss()
       } catch {
-        errorMessage = error.localizedDescription
+        errorMessage = "Failed to submit post: \(error.localizedDescription)"
         showError = true
       }
+      isSubmitting = false
     }
   }
 }
