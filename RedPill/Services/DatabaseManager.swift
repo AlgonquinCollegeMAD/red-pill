@@ -39,8 +39,8 @@ class DatabaseManager: ObservableObject {
     return querySnapshot.documents.compactMap { try? $0.data(as: Post.self) }
   }
   
-  func addPost(content: String, authorID: String) async throws {
-    let newPost = Post(content: content, authorID: authorID, timestamp: Date())
+  func addPost(content: String, authorID: String, imageURL: URL?) async throws {
+    let newPost = Post(content: content, authorID: authorID, timestamp: Date(), imageURL: imageURL)
     try db.collection("posts").addDocument(from: newPost)
   }
 }
