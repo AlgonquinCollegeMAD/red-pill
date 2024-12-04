@@ -43,6 +43,7 @@ struct CreatePostView: View {
             .cornerRadius(8)
         }
       }
+        
       .disabled(isSubmitting || postContent.isEmpty)
       .padding(.horizontal)
       .padding(.bottom)

@@ -12,7 +12,7 @@ struct PostsListView: View {
   @State private var posts: [Post] = []
   
   var body: some View {
-    List(databaseManager.posts) { post in
+    List(posts) { post in
       VStack(alignment: .leading) {
         Text(post.content)
           .font(.headline)
